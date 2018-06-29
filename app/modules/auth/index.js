@@ -1,4 +1,5 @@
 import * as actions from './actions';
 import reducer from './reducer';
 
-export { actions, reducer };
+import * as theme from '../../styles/theme';
+export { actions, reducer, theme };

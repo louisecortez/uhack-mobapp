@@ -8,13 +8,14 @@ import home from '../modules/auth/scenes/home';
 
 import {connect} from 'react-redux';
 
+
 class Main extends Component {
 
     render() {
         return (
             <Router>
                 <Scene key="root">
-                    <Scene key="home" component={home} title="Home" initial/>
+                    <Scene key="home" component={home} title="Home" initial hideNavBar/>
                 </Scene>
             </Router>
         );

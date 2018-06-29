@@ -8,10 +8,25 @@ import home from '../modules/auth/scenes/home';
 
 import {connect} from 'react-redux';
 
+import { checkLoginStatus } from "../modules/auth/actions";
 
 class Main extends Component {
-
+    constructor() {
+        super();
+        this.state = {
+            isReady: false,
+            isLoggedIn: false
+        }
+    }
+    componentDidMount() {
+        let _this = this;
+        store.dispatch(checkLoginStatus((isLoggedIn) => {
+            _this.setState({isReady: true, isLoggedIn});
+        }));
+    }
     render() {
+        if (!this.state.isReady)
+            return;
         return (
             <Router>
                 <Scene key="root">
@@ -23,4 +38,4 @@ class Main extends Component {
 }
 
 //Connect everything
-export default connect(null)(Main);
+export default connect(null, {checkLoginStatus})(Main);

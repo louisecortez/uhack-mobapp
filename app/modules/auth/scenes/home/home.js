@@ -2,6 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+
+
 import Form from "../../components/Form";
 
 const fields = [
@@ -83,7 +87,7 @@ class Home extends React.Component {
   }
 
   onSubmit(data) {
-      console.log("submitted");
+      console.log(data);
   }
 
   onSuccess(user) {
@@ -117,4 +121,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default connect(null)(Home);

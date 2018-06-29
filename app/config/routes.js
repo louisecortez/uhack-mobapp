@@ -8,6 +8,8 @@ import home from '../modules/auth/scenes/home';
 
 import {connect} from 'react-redux';
 
+
+import store from '../redux/store'
 import { checkLoginStatus } from "../modules/auth/actions";
 
 class Main extends Component {
@@ -25,8 +27,6 @@ class Main extends Component {
         }));
     }
     render() {
-        if (!this.state.isReady)
-            return;
         return (
             <Router>
                 <Scene key="root">

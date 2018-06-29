@@ -8,39 +8,9 @@ import { connect } from 'react-redux';
 
 import Form from "../../components/Form";
 
-
-import {actions as auth} from "../../index"
-
-const {register} = auth;
+import login from "../../actions";
 
 const fields = [
-    {
-        key: 'fname',
-        label: 'First Name',
-        placeholder: 'First Name',
-        autoFocus: false,
-        secureTextEntry: false,
-        value: "",
-        type: "text",
-    },
-    {
-        key: 'lname',
-        label: 'Last Name',
-        placeholder: 'Last Name',
-        autoFocus: false,
-        secureTextEntry: false,
-        value: "",
-        type: "text",
-    },
-    {
-        key: 'cnumber',
-        label: 'Contact Number',
-        placeholder: 'Contact Number',
-        autoFocus: false,
-        secureTextEntry: false,
-        value: "",
-        type: "text",
-    },
     {
         key: 'email',
         label: "Email Address",
@@ -59,27 +29,15 @@ const fields = [
         value: "",
         type: "password"
     },
-    {
-        key: 'confirm_password',
-        label: "Confirm Password",
-        placeholder: "Confirm Password",
-        autoFocus: false,
-        secureTextEntry: true,
-        value: "",
-        type: "confirm_password"
-    }
 ];
 
 const error = {
   general: "",
-  fname: "",
-  lname: "",
-  cnumber: "",
   email: "",
   password: "",
   confirm_password: ""
 }
-class Home extends React.Component {
+class Login extends React.Component {
   constructor() {
       super();
       this.state = {
@@ -93,13 +51,16 @@ class Home extends React.Component {
 
   onSubmit(data) {
       this.setState({error: error});
-      this.props.register(data, this.onSuccess, this.onError);
+      this.props.login(data, this.onSuccess, this.onError);
   }
 
   onSuccess(user) {
-        Actions.Login();
-    }
+      Actions.Login();
+  }
+
+
   onError(error) {
+      
         let errObj = this.state.error;
 
         if (error.hasOwnProperty("message")) {
@@ -116,11 +77,10 @@ class Home extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Hello</Text>
         <Form fields={fields}
                       showLabel={false}
                       onSubmit={this.onSubmit}
-                      buttonTitle={"SIGN UP"}
+                      buttonTitle={"Login"}
                       error={this.state.error}/>
       </View>
     );
@@ -136,4 +96,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null,{register})(Home);
+export default connect(null, {login})(Login);

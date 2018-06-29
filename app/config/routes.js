@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import { Router, Scene } from 'react-native-router-flux';
 
 import home from '../modules/auth/scenes/home';
+import Login from '../modules/auth/scenes/Login';
 
 
 import {connect} from 'react-redux';
@@ -30,7 +31,8 @@ class Main extends Component {
         return (
             <Router>
                 <Scene key="root">
-                    <Scene key="home" component={home} title="Home" initial hideNavBar/>
+                    <Scene key="home" component={home} title="Home" initial/>
+                    <Scene key="Login" component={Login} title="Login"/>
                 </Scene>
             </Router>
         );

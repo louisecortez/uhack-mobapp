@@ -5,9 +5,15 @@ import { auth } from "../../config/firebase";
 import { AsyncStorage } from 'react-native';
 import Communications from 'react-native-communications';
 
-export function requestHelp(){
+export function checkHelp(requestCB, doneCB){
+    return (dispatch) => {
+        api.checkHelp(requestCB, doneCB);
+    }
+}
+export function requestHelp(callback){
     return(dispatch) => {
          api.requestHelp(() => {
+            callback();
             Communications.phonecall("+639193934289",true);
          });
     }

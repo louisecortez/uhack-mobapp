@@ -44,14 +44,37 @@ export function requestHelp (callback){
             user: user.uid,
         }
         updates = {};
-        updates['/request/'+newkey] = newreq;
-        console.log(newkey);
-        database.ref('request/'+newkey).on('child_added', (snapshot) =>{
-            if(snapshot.key == 'callerid'){
-                database.ref('request').off('child_added');
-                callback();
-            }
-        })
+        callback();
         return database.ref('request/'+newkey).update(newreq);
     })
+}
+
+export function checkHelp(requestedCB, doneCB){
+    var isnt = false;
+    var user;
+    helpers.getUserDetailsPromise().then((usert) => {
+        user = usert;
+        return database.ref('request').orderByChild('user').equalTo(user.uid).once('value').then((snapshot) => {
+            return snapshot.val();
+        })
+    }).then((request) => {
+        if(request != null) {
+            console.log("RIP");
+            database.ref('response').on('child_added', (snapshot) => {
+                console.log("HEHE");
+                if(snapshot != null){
+                    var val = snapshot.val();
+                    console.log(val);
+                    if(val != null && val.user == user.uid){
+                        console.log("CLEAN");
+                        doneCB();
+                    }
+                }
+            })
+            requestedCB();
+        }
+    }, (error) => {
+        console.error(error);
+    })
+    
 }

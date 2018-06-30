@@ -10,8 +10,7 @@ import Communications from 'react-native-communications';
 
 import styles from './styles';
 import {actions as auth} from "../../index"
-
-const {requestHelp} = auth;
+const {requestHelp, checkHelp} = auth;
 
 class Help extends React.Component {
   constructor() {
@@ -23,16 +22,19 @@ class Help extends React.Component {
       this.onHelp = this.onHelp.bind(this);
   }
 
-  componentDidMount() {
-        let _this = this;
-        store.dispatch(checkLoginStatus((isLoggedIn) => {
-            _this.setState({isReady: true, isLoggedIn});
-        }));
+    componentDidMount() {
+        this.props.checkHelp(()=>{
+            this.setState({loading: true})
+        }, () => {
+            this.setState({loading: false})
+        })
     }
 
   onHelp() {
       console.log("i'm dying");
-      this.props.requestHelp();
+      this.props.requestHelp(()=>{
+        this.setState({loading: true});
+        });
       //Communications.phonecall("+639193934289",true);
   }
 
@@ -67,4 +69,4 @@ class Help extends React.Component {
   }
 }
 
-export default connect(null, {requestHelp})(Help);
+export default connect(null, {requestHelp, checkHelp})(Help);

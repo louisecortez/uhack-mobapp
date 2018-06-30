@@ -6,7 +6,6 @@ import home from '../modules/auth/scenes/home';
 import Help from '../modules/auth/scenes/Help';
 import Login from '../modules/auth/scenes/Login';
 
-
 import {connect} from 'react-redux';
 
 
@@ -43,8 +42,8 @@ class Main extends Component {
             <Router>
                 <Scene key="root">
                     <Scene key = "notauth" initial = {!this.state.isLoggedIn}>
-                        <Scene key="home" component={home} title="Home"/>
-                        <Scene key="Login" component={Login} title="Login" initial/>
+                        <Scene key="home" component={home} title="Home" initial/>
+                        <Scene key="Login" component={Login} title="Login"/>
                     </Scene>
                     <Scene key="authed" initial = {this.state.isLoggedIn}>
                         <Scene key="Help" component={Help} title="Help"/>

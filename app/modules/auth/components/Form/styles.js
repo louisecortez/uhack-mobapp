@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     },
 
     button:{
-        backgroundColor: "#FF553F",
+        backgroundColor: "#ff5b84",
         height: normalize(55)
     },
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         marginBottom: padding,
         fontSize: fontSize.regular,
         fontFamily: fontFamily.medium,
-    }
+    },
 });
 
 

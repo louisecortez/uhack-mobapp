@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, KeyboardAvoidingView } from 'react-native';
 
 
 import { Actions } from 'react-native-router-flux';
@@ -116,11 +116,16 @@ class Home extends React.Component {
 
   render() {
     return (
+        <KeyboardAvoidingView style={styles.kav} behavior="padding" enabled>
+
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.contentContainer}>
             
                 <View style={styles.titleContainer}>
-                    <Text>To continue, please create an account.</Text>
+                    <Image source={require('../../../../assets/images/medicall_black.png')}
+                            style={styles.imageLogo}
+                            resizeMode='contain'/>
+                    <Text style={styles.slogan}>A tap can save a life.</Text>
                 </View>
                 <View style={styles.bodyContainer}>
                     <Form fields={fields}
@@ -132,7 +137,7 @@ class Home extends React.Component {
                 
             </ScrollView>
         </View>
-      
+      </KeyboardAvoidingView>
     );
   }
 }

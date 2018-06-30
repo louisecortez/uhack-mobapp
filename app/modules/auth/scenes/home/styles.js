@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         // // marginTop: padding * 4,
         // backgroundColor: 'red',
         width: "100%",
-        height: windowHeight / 3,
+        height: windowHeight * 3 / 5,
     },
 
     bodyContainer:{
@@ -33,6 +33,27 @@ const styles = StyleSheet.create({
         // backgroundColor: "yellow",
         // marginHorizontal: padding * 2,
         paddingBottom: padding * 4,
+    },
+
+    imageLogo:{
+        height: "60%",
+        width: "60%",
+    },
+
+    kav:{
+        height: "100%",
+        width: "100%",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
+    
+
+    slogan:{
+        fontFamily: fontFamily.regular,
+        fontSize: fontSize.regular + 5,
+        // backgroundColor: "yellow",
     }
 
 });

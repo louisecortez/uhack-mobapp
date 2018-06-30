@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Platform, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Platform, Image, Button } from 'react-native';
 // import {connect} from "react-redux";
 
 import styles from "./styles"
@@ -10,8 +10,9 @@ import MapView, { Marker, AnimatedRegion, Polyline } from "react-native-maps";
 import haversine from "haversine";
 
 // import styles from "./styles";
-const LATITUDE = 29.95539;
-const LONGITUDE = 78.07513;
+
+const LATITUDE = 14.5651;
+const LONGITUDE = 120.9943;
 const LATITUDE_DELTA = 0.009;
 const LONGITUDE_DELTA = 0.009;
 
@@ -49,7 +50,14 @@ class Map extends React.Component {
             coordinate: new AnimatedRegion({
                 latitude: LATITUDE,
                 longitude: LONGITUDE
-            })
+            }),
+            ambulanceLoc: {
+                coordinate: {
+                    lat: 14.5777, 
+                    long: 120.9856,
+                },
+                title: "Current location",
+            }
         };
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -208,14 +216,30 @@ class Map extends React.Component {
                     coordinate={{latitude: this.state.latitude,
                         longitude: this.state.longitude}}
                     title={"You are here."}
+                    pinColor={"aqua"}
                     // description={"description"}
                 />
-                <Marker.Animated 
+                <MapView.Marker
+                    coordinate={{latitude: this.state.ambulanceLoc.coordinate.lat,
+                        longitude: this.state.ambulanceLoc.coordinate.long}}
+                    title={"Ambulance location"}
+                    
+                    // description={"description"}
+                />
+                {/* <Marker.Animated 
                     ref={marker => {
                     this.marker = marker;
                     }}
-                    coordinate={this.state.coordinate} />
+                    coordinate={this.state.coordinate} /> */}
             </MapView>
+            <Button
+                raised
+                color="#ff5b84"
+                title={"Arrive to hospital"}
+                borderRadius={4}
+                buttonStyle={styles.upButton}
+                textStyle={styles.buttonText}
+                onPress={ console.log("woo")}/>
             <View style={styles.buttonContainer}>
                 <View style={[styles.bubble, styles.button]}>
                     <View style={styles.leftHandBubble}>
@@ -224,8 +248,14 @@ class Map extends React.Component {
                             resizeMode='contain'/>
                     </View>
                     <View style={styles.rightHandBubble}>
+                        {/* <Text style={styles.bottomBarContent}>
+                            Your ambulance is <Text style={styles.emphasisText}>{parseFloat(this.state.distanceTravelled).toFixed(2)} km</Text> away.
+                        </Text> */}
                         <Text style={styles.bottomBarContent}>
-                            Your ambulance is <Text style={styles.emphasisText}>{parseFloat(this.state.distanceTravelled).toFixed(2)}</Text> km away.
+                            Your ambulance is <Text style={styles.emphasisText}>0.87 km</Text> away.
+                        </Text>
+                        <Text style={[styles.emphasisText, { paddingTop: 5, }]}>
+                            Philippine General Hospital
                         </Text>
                     </View>
                 </View>

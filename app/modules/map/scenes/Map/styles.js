@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
       alignItems: "stretch"
     },
     button: {
-      width: 80,
+      width: windowWidth - 100,
       paddingHorizontal: 12,
     //   alignItems: "center",
       marginHorizontal: 10,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     },
     emphasisText:{
         fontFamily: fontFamily.bold,
-        
+        color: "#ff5b84",
     }
   });
 export default styles;

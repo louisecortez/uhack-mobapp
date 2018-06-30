@@ -4,7 +4,7 @@ import { View, Text, AsyncStorage } from 'react-native';
 import { Router, Scene } from 'react-native-router-flux';
 
 import home from '../modules/auth/scenes/home';
-import store from '../redux/store'
+// import store from '../redux/store'
 
 
 import {connect} from 'react-redux';
@@ -37,7 +37,7 @@ class Main extends Component {
         return (
             <Router>
                 <Scene key="root">
-                    <Scene key="home" component={home} title="Home"  hideNavBar/>
+                    <Scene key="home" component={home} initial title="Home" hideNavBar/>
                     {/* <Scene key="map"
                                    title='Map' //icon={TabIcon}
                                 //    tabs
@@ -46,7 +46,7 @@ class Main extends Component {
                                    tabBarPosition='bottom'
                                 showLabel={false} hideNavBar initial/> */}
                     <Scene key = 'mapInnerTab' title = "Map"
-                            component={Map} initial hideNavBar>
+                            component={Map} hideNavBar>
                     </Scene>
                 </Scene>
             </Router>

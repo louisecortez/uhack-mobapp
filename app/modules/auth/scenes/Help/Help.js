@@ -27,6 +27,9 @@ class Help extends React.Component {
             this.setState({loading: true})
         }, () => {
             this.setState({loading: false})
+            Actions.mapInnerTab();
+        }, () => {
+
         })
     }
 

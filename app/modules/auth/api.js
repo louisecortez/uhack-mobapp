@@ -49,7 +49,7 @@ export function requestHelp (callback){
     })
 }
 
-export function checkHelp(requestedCB, doneCB){
+export function checkHelp(requestedCB, doneCB, nothingCB){
     var isnt = false;
     var user;
     helpers.getUserDetailsPromise().then((usert) => {
@@ -57,6 +57,7 @@ export function checkHelp(requestedCB, doneCB){
         return database.ref('request').orderByChild('user').equalTo(user.uid).once('value').then((snapshot) => {
             return snapshot.val();
         })
+        
     }).then((request) => {
         if(request != null) {
             console.log("RIP");
@@ -73,6 +74,10 @@ export function checkHelp(requestedCB, doneCB){
             })
             requestedCB();
         }
+        else{
+            nothingCB();
+        }
+        
     }, (error) => {
         console.error(error);
     })

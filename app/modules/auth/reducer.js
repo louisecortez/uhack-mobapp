@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native';
 import * as t from './actionTypes';
 
 let initialState = { isLoggedIn: false, user: null };
-const authReducer = (state = initialState, actions) =>{
+const authReducer = (state = initialState, action) =>{
     switch (action.type) {
         case t.LOGGED_IN:
             //storing user information phones storage

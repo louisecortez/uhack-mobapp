@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 
 import { Actions } from 'react-native-router-flux';
@@ -8,7 +8,10 @@ import { connect } from 'react-redux';
 
 import Form from "../../components/Form";
 
-import login from "../../actions";
+import {actions as auth} from "../../index"
+
+import styles from './styles';
+const {login} = auth;
 
 const fields = [
     {
@@ -55,7 +58,7 @@ class Login extends React.Component {
   }
 
   onSuccess(user) {
-      Actions.Login();
+      Actions.Help();
   }
 
 
@@ -87,13 +90,5 @@ class Login extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default connect(null, {login})(Login);

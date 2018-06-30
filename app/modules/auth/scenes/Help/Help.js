@@ -1,99 +1,70 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { Button } from 'react-native';
 
+import Communications from 'react-native-communications';
 
-import Form from "../../components/Form";
+import styles from './styles';
+import {actions as auth} from "../../index"
 
-import login from "../../actions";
+const {requestHelp} = auth;
 
-const fields = [
-    {
-        key: 'email',
-        label: "Email Address",
-        placeholder: "Email Address",
-        autoFocus: false,
-        secureTextEntry: false,
-        value: "",
-        type: "email"
-    },
-    {
-        key: 'password',
-        label: "Password",
-        placeholder: "Password",
-        autoFocus: false,
-        secureTextEntry: true,
-        value: "",
-        type: "password"
-    },
-];
-
-const error = {
-  general: "",
-  email: "",
-  password: "",
-  confirm_password: ""
-}
-class Home extends React.Component {
+class Help extends React.Component {
   constructor() {
       super();
       this.state = {
-          error: error
+          loading: false
       }
 
-      this.onSubmit = this.onSubmit.bind(this);
-      this.onSuccess = this.onSuccess.bind(this);
-      this.onError = this.onError.bind(this);
+      this.onHelp = this.onHelp.bind(this);
   }
 
-  onSubmit(data) {
-      this.setState({error: error});
-      this.props.login(data, this.onSuccess, this.onError);
-  }
+  componentDidMount() {
+        let _this = this;
+        store.dispatch(checkLoginStatus((isLoggedIn) => {
+            _this.setState({isReady: true, isLoggedIn});
+        }));
+    }
 
-  onSuccess(user) {
-      Actions.Login();
-  }
-
-
-  onError(error) {
-      
-        let errObj = this.state.error;
-
-        if (error.hasOwnProperty("message")) {
-            errObj['general'] = error.message;
-        } else {
-            let keys = Object.keys(error);
-            keys.map((key, index) => {
-                errObj[key] = error[key];
-            })
-        }
-        this.setState({error: errObj});
+  onHelp() {
+      console.log("i'm dying");
+      this.props.requestHelp();
+      //Communications.phonecall("+639193934289",true);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Form fields={fields}
-                      showLabel={false}
-                      onSubmit={this.onSubmit}
-                      buttonTitle={"Login"}
-                      error={this.state.error}/>
+        <Text>Hi, user!</Text>
+        <Button
+            title="SEND HELP"
+            color="#ff5b84"
+            onPress={this.onHelp}
+        />
+
+        {this.state.loading ?
+            <View
+                style = {styles.loadings}>
+                <Image
+                    style = {styles.imgs}
+                    source = {require('../../../../assets/materials/load.gif')}
+                />
+                
+                <Text
+                    style = {styles.callertxt}
+                >Waiting for Ambulance</Text>
+            </View>
+            :
+            <View></View>
+        }
+        
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default connect(null, {login})(Home);
+export default connect(null, {requestHelp})(Help);

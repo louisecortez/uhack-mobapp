@@ -9,6 +9,8 @@ import store from '../redux/store'
 
 import {connect} from 'react-redux';
 
+
+import store from '../redux/store'
 import { checkLoginStatus } from "../modules/auth/actions";
 import Map       from '../modules/map/scenes/Map/Map';
 

@@ -19,15 +19,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: windowWidth,
         height: windowHeight,
-        backgroundColor: 'rgba(0,0,0,0.9)',
+        backgroundColor: 'rgba(245,230,230,0.9)',
         alignItems: 'center',
       },
       imgs: {
-        width: 400,
-        height: 400,
+        width: 300,
+        height: 300,
       },
       callertxt: {
-          color: 'white',
+          color: '#ff5b84',
           
           fontSize: 32,
       }

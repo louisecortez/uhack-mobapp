@@ -5,6 +5,11 @@ import { auth } from "../../config/firebase";
 import { AsyncStorage } from 'react-native';
 import Communications from 'react-native-communications';
 
+export function checkAmbulance(doneCB, nothingCB){
+    return (dispatch) => {
+        api.checkHelp(doneCB, nothingCB);
+    }
+}
 export function checkHelp(requestCB, doneCB, nothingCB){
     return (dispatch) => {
         api.checkHelp(requestCB, doneCB, nothingCB);

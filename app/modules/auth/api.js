@@ -75,6 +75,47 @@ export function checkHelp(requestedCB, doneCB, nothingCB){
             requestedCB();
         }
         else{
+            database.ref('response').on('child_added', (snapshot) => {
+                console.log("HEHE");
+                if(snapshot != null){
+                    var val = snapshot.val();
+                    console.log(val);
+                    if(val != null && val.user == user.uid){
+                        console.log("CLEAN");
+                        doneCB();
+                    }
+                }
+            })
+            nothingCB();
+        }
+        
+    }, (error) => {
+        console.error(error);
+    })
+    
+}
+
+export function checkAmbulance(doneCB, nothingCB){
+    var isnt = false;
+    var user;
+    helpers.getUserDetailsPromise().then((usert) => {
+        user = usert;
+        return database.ref('response').orderByChild('user').equalTo(user.uid).once('value').then((snapshot) => {
+            return snapshot.val();
+        })
+        
+    }).then((request) => {
+        if(request != null) {
+            database.ref('saved').on('child_added', (snapshot) => {
+                if(snapshot != null){
+                    var val = snapshot.val();
+                    if(val != null && val.user == user.uid){
+                        doneCB();
+                    }
+                }
+            })
+        }
+        else{
             nothingCB();
         }
         

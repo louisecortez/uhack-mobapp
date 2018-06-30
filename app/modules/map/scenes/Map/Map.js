@@ -9,6 +9,8 @@ import { connect } from 'react-redux';
 import MapView, { Marker, AnimatedRegion, Polyline } from "react-native-maps";
 import haversine from "haversine";
 
+import {actions as auth} from "../../../auth/index"
+const {checkAmbulance} = auth;
 // import styles from "./styles";
 const LATITUDE = 29.95539;
 const LONGITUDE = 78.07513;
@@ -137,6 +139,11 @@ class Map extends React.Component {
         error => console.log(error),
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
+    this.props.checkAmbulance(() => {
+        Actions.Help();
+    }, () => {
+
+    })
     }
 
     calcDistance = newLatLng => {
@@ -236,4 +243,4 @@ class Map extends React.Component {
 }
 
 
-export default Map;
+export default connect(null, {checkAmbulance})(Map);

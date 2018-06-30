@@ -42,11 +42,11 @@ class Main extends Component {
             <Router>
                 <Scene key="root">
                     <Scene key = "notauth" initial = {!this.state.isLoggedIn}>
-                        <Scene key="home" component={home} title="Home" initial/>
-                        <Scene key="Login" component={Login} title="Login"/>
+                        <Scene key="home" component={home} title="Home" initial hideNavBar/>
+                        <Scene key="Login" component={Login} title="Login" hideNavBar/>
                     </Scene>
-                    <Scene key="authed" initial = {this.state.isLoggedIn}>
-                        <Scene key="Help" component={Help} title="Help"/>
+                    <Scene key="authed" initial = {this.state.isLoggedIn} hideNavBar>
+                        <Scene key="Help" component={Help} title="Help" hideNavBar/>
 
                         <Scene key = 'mapInnerTab' title = "Map"
                                 component={Map} hideNavBar>

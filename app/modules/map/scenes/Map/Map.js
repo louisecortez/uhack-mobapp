@@ -264,6 +264,7 @@ class Map extends React.Component {
                         <Text style={[styles.emphasisText, { paddingTop: 5, }]}>
                             Philippine General Hospital
                         </Text>
+                        <Text style={styles.bottomBarContent}>P80</Text>
                     </View>
                 </View>
             </View>

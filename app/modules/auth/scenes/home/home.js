@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, KeyboardAvoidingView } from 'react-native';
 
 
 import { Actions } from 'react-native-router-flux';
@@ -7,6 +7,12 @@ import { connect } from 'react-redux';
 
 
 import Form from "../../components/Form";
+import styles from "./styles";
+
+
+import {actions as auth} from "../../index"
+
+const {register} = auth;
 
 const fields = [
     {
@@ -87,38 +93,53 @@ class Home extends React.Component {
   }
 
   onSubmit(data) {
-      console.log(data);
+      this.setState({error: error});
+      this.props.register(data, this.onSuccess, this.onError);
   }
 
   onSuccess(user) {
-      Actions.CompleteProfile({ user })
-  }
-
+        Actions.Login();
+    }
   onError(error) {
-      console.log("no u");
+        let errObj = this.state.error;
+
+        if (error.hasOwnProperty("message")) {
+            errObj['general'] = error.message;
+        } else {
+            let keys = Object.keys(error);
+            keys.map((key, index) => {
+                errObj[key] = error[key];
+            })
+        }
+        this.setState({error: errObj});
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Hello</Text>
-        <Form fields={fields}
-                      showLabel={false}
-                      onSubmit={this.onSubmit}
-                      buttonTitle={"SIGN UP"}
-                      error={this.state.error}/>
-      </View>
+        <KeyboardAvoidingView style={styles.kav} behavior="padding" enabled>
+
+        <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.contentContainer}>
+            
+                <View style={styles.titleContainer}>
+                    <Image source={require('../../../../assets/images/medicall_black.png')}
+                            style={styles.imageLogo}
+                            resizeMode='contain'/>
+                    <Text style={styles.slogan}>A tap can save a life.</Text>
+                </View>
+                <View style={styles.bodyContainer}>
+                    <Form fields={fields}
+                            showLabel={false}
+                            onSubmit={this.onSubmit}
+                            buttonTitle={"SIGN UP"}
+                            error={this.state.error}/>
+                </View>
+                
+            </ScrollView>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default connect(null)(Home);
+export default connect(null,{register})(Home);

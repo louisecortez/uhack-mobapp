@@ -1,5 +1,8 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 17924
+  "packagerPid": 18610,
+  "expoServerNgrokUrl": "https://uw-8aq.jc00x.uhackapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.uw-8aq.jc00x.uhackapp.exp.direct",
+  "ngrokPid": 18626
 }

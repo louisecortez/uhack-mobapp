@@ -1,49 +1,25 @@
 import { auth, database, provider } from "../../config/firebase";
 
+import * as helpers from "./helpers";
 //Register the user using email and password
 export function register(data, callback) {
     const { email, password } = data;
     auth.createUserWithEmailAndPassword(email, password)
-        .then((user) => callback(true, user, null))
+        .then((user) => {
+            const newUser = {
+                yes: true,
+                uid: user.uid
+            }
+            database.ref('users/'+user.uid).update(newUser);
+            callback(true, user, null);
+        })
         .catch((error) => callback(false, null, error));
 }
-
-//Create the user object in realtime database
-export function createUser (user, callback) {
-    database.ref('users').child(user.uid).update({ ...user })
-        .then(() => callback(true, null, null))
-        .catch((error) => callback(false, null, {message: error}));
-}
-
 //Sign the user in with their email and password
 export function login(data, callback) {
     const { email, password } = data;
     auth.signInWithEmailAndPassword(email, password)
-        .then((user) => getUser(user, callback))
-        .catch((error) => callback(false, null, error));
-}
-
-//Get the user object from the realtime database
-export function getUser(user, callback) {
-    database.ref('users').child(user.uid).once('value')
-        .then(function(snapshot) {
-
-            const exists = (snapshot.val() !== null);
-
-            //if the user exist in the DB, replace the user variable with the returned snapshot
-            if (exists) user = snapshot.val();
-
-            const data = { exists, user }
-            callback(true, data, null);
-        })
-        .catch(error => callback(false, null, error));
-}
-
-//Send Password Reset Email
-export function resetPassword(data, callback) {
-    const { email } = data;
-    auth.sendPasswordResetEmail(email)
-        .then((user) => callback(true, null, null))
+        .then((user) => callback(true,user, null))
         .catch((error) => callback(false, null, error));
 }
 
@@ -55,4 +31,96 @@ export function signOut (callback) {
         .catch((error) => {
             if (callback) callback(false, null, error)
         });
+}
+
+export function requestHelp (callback){
+    helpers.getUserDetailsPromise().then((user)=>{
+
+        var newkey = database.ref().child('request').push().key;
+
+        var newreq = {
+            lat: 0,
+            long: 0,
+            user: user.uid,
+        }
+        updates = {};
+        callback();
+        return database.ref('request/'+newkey).update(newreq);
+    })
+}
+
+export function checkHelp(requestedCB, doneCB, nothingCB){
+    var isnt = false;
+    var user;
+    helpers.getUserDetailsPromise().then((usert) => {
+        user = usert;
+        return database.ref('request').orderByChild('user').equalTo(user.uid).once('value').then((snapshot) => {
+            return snapshot.val();
+        })
+        
+    }).then((request) => {
+        if(request != null) {
+            console.log("RIP");
+            database.ref('response').on('child_added', (snapshot) => {
+                console.log("HEHE");
+                if(snapshot != null){
+                    var val = snapshot.val();
+                    console.log(val);
+                    if(val != null && val.user == user.uid){
+                        console.log("CLEAN");
+                        doneCB();
+                    }
+                }
+            })
+            requestedCB();
+        }
+        else{
+            database.ref('response').on('child_added', (snapshot) => {
+                console.log("HEHE");
+                if(snapshot != null){
+                    var val = snapshot.val();
+                    console.log(val);
+                    if(val != null && val.user == user.uid){
+                        console.log("CLEAN");
+                        doneCB();
+                    }
+                }
+            })
+            nothingCB();
+        }
+        
+    }, (error) => {
+        console.error(error);
+    })
+    
+}
+
+export function checkAmbulance(doneCB, nothingCB){
+    var isnt = false;
+    var user;
+    helpers.getUserDetailsPromise().then((usert) => {
+        user = usert;
+        return database.ref('response').orderByChild('user').equalTo(user.uid).once('value').then((snapshot) => {
+            return snapshot.val();
+        })
+        
+    }).then((request) => {
+        if(request != null) {
+            database.ref('saved').on('child_added', (snapshot) => {
+                if(snapshot != null){
+                    var val = snapshot.val();
+                    if(val != null && val.user == user.uid){
+                        doneCB();
+                    }
+                }
+            })
+        }
+        else{
+            nothingCB();
+        }
+        
+    }, (error) => {
+        console.error(error);
+    })
+    
 }

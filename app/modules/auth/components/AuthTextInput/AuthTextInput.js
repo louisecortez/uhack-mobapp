@@ -20,6 +20,25 @@ class AuthTextInput extends Component {
                 <FormInput
                     autoCapitalize='none'
                     clearButtonMode='while-editing'
+                    underlineColorAndroid={"#ffffff00"}
+                    placeholder={placeholder}
+                    placeholderTextColor={"#00000059"}
+                    autoFocus={autoFocus}
+                    onChangeText={onChangeText}
+                    secureTextEntry={secureTextEntry}
+                    inputStyle={styles.inputContainer}
+
+                    value={this.props.value}/>
+                
+                {
+                    (!isEmpty(this.props.error)) &&
+                    <FormValidationMessage>
+                        {this.props.error}
+                    </FormValidationMessage>
+                }
+                {/* <FormInput
+                    autoCapitalize='none'
+                    clearButtonMode='while-editing'
                     underlineColorAndroid={"#fff"}
                     placeholder={placeholder}
                     autoFocus={autoFocus}
@@ -33,7 +52,7 @@ class AuthTextInput extends Component {
                     <FormValidationMessage>
                         {this.props.error}
                     </FormValidationMessage>
-                }
+                } */}
             </View>
         );
     }
